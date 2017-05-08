@@ -4,4 +4,4 @@ title: About Me
 permalink: /about/
 published: false
 ---
-I'm currently the cheif executive officer at Hoxly, Inc. 
+I'm currently the chief executive officer at Hoxly, Inc. 
