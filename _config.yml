@@ -20,3 +20,6 @@ markdown: kramdown
 
 # Theme
 theme: jekyll-theme-cayman
+
+# Google Analytics
+google_analytics: UA-84996945-3
