@@ -1,23 +1,167 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html>
 
-<div class="home">
+<head>
+	<title>Kyle Piira - Résumé</title>
 
-  <h1 class="page-heading">Posts</h1>
+	<meta name="viewport" content="width=device-width" />
+	<meta name="description" content="The Curriculum Vitae of Joe Bloggs." />
+	<meta charset="UTF-8">
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+	<link type="text/css" rel="stylesheet" href="style.css">
+	<link href='http://fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
+	<!--[if lt IE 9]>
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+<body id="top">
+	<div id="cv" class="instaFade">
+		<div class="mainDetails">
+			<div id="headshot" class="quickFade">
+				<img src="headshot.jpg" alt="Alan Smith" />
+			</div>
 
-</div>
+			<div id="name">
+				<h1 class="quickFade delayTwo">Kyle Piira</h1>
+				<h2 class="quickFade delayThree">Software Developer</h2>
+			</div>
+
+			<div id="contactDetails" class="quickFade delayFour">
+				<ul>
+					<li>Email: <a href="mailto:contact@kylepiira.com" target="_blank">contact@kylepiira.com</a></li>
+					<li>Website: <a href="http://www.kylepiira.com">www.kylepiira.com</a></li>
+					<li>Mobile: <a href="tel:4074628150">+1 (407) 462 8150</a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>
+
+		<div id="mainArea" class="quickFade delayFive">
+			<section>
+				<article>
+					<div class="sectionTitle">
+						<h1>Summary</h1>
+					</div>
+
+					<div class="sectionContent">
+						<p>Executive officer with 5+ years of experience in helping teams build a powerful work ethic, and a background in software development.</p>
+					</div>
+				</article>
+				<div class="clear"></div>
+			</section>
+
+
+			<section>
+				<div class="sectionTitle">
+					<h1>Work Experience</h1>
+				</div>
+
+				<div class="sectionContent">
+					<article>
+						<h2><strong>Hoxly Corporation,</strong> Orlando FL - Executive Officer</h2>
+						<p class="subDetails">April 2012 - Present</p>
+						<p>Managed the company's contracts with third-parties and engineered a robust cloud infrastructure capable of on demand scaling to minimize costs.</p>
+					</article>
+
+					<article>
+						<h2><strong>Freelance Web Design,</strong> Orlando FL - Web Developer</h2>
+						<p class="subDetails">October 2013 - May 2016</p>
+						<p>Wrote HTML & CSS code for client websites, and performed installations on client servers.</p>
+					</article>
+
+				</div>
+				<div class="clear"></div>
+			</section>
+
+
+			<section>
+				<div class="sectionTitle">
+					<h1>Key Skills</h1>
+				</div>
+
+				<div class="sectionContent">
+					<ul class="keySkills">
+						<li>Proficient in Linux & Bash</li>
+						<li>QuickBooks Desktop 2015 Certified</li>
+						<li>Proficient in Microsoft Office & GSuite</li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</section>
+
+			<section>
+				<div class="sectionTitle">
+					<h1>Languages</h1>
+				</div>
+
+				<div class="sectionContent">
+					<ul class="keySkills">
+						<li>Python</li>
+						<li>PHP</li>
+						<li>HTML</li>
+						<li>CSS</li>
+						<li>JavaScript</li>
+						<li>Django</li>
+					</ul>
+				</div>
+				<div class="clear"></div>
+			</section>
+
+
+			<section>
+				<div class="sectionTitle">
+					<h1>Education</h1>
+				</div>
+
+				<div class="sectionContent">
+					<article>
+						<h2><strong>Lake Howell High School,</strong> Winter Park FL</h2>
+						<p class="subDetails">August 2014 - May 2018</p>
+						<ul>
+							<li>Weighted GPA of 3.9</li>
+							<li>Business Professionals of America Club</li>
+							<li>Business Management 1,2,3, & 4</li>
+							<li>
+								<span>Advanced Placemnt:</span>
+								<ul>
+									<li>Calculus</li>
+									<li>Biology</li>
+									<li>English Lang & Comp</li>
+									<li>World History</li>
+									<li>Human Geography</li>
+								</ul>
+							</li>
+						</ul>
+					</article>
+
+					<article>
+						<h2><strong>Florida Virtual School,</strong> Orlando FL</h2>
+						<p class="subDetails">January 2013 - May 2018</p>
+						<ul>
+							<li>Fundamentals of Programming</li>
+							<li>Fundamentals of Web Design</li>
+							<li>Physical Science</li>
+							<li>Spanish 1 & 2</li>
+						</ul>
+					</article>
+				</div>
+				<div class="clear"></div>
+			</section>
+
+		</div>
+	</div>
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-84996945-3', 'auto');
+		ga('send', 'pageview');
+
+	</script>
+</body>
+
+</html>
