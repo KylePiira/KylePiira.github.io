@@ -47,8 +47,9 @@ August 2014 - May 2018
 *   Weighted GPA of 3.9
 *   Business Professionals of America Club
 *   Business Management 1,2,3, & 4
-*   Advanced Placemnt:
-    *   Calculus
+*   Advanced Placement:
+    *   Calculus AB/BC
+    *   Physics
     *   Biology
     *   English Lang & Comp
     *   World History
