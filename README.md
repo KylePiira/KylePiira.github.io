@@ -39,6 +39,9 @@ Wrote HTML & CSS code for client websites, and performed installations on client
 
 # Education
 
+## **University of Massachusetts,** Amherst
+
+September 2018 - Present
 
 ## **Lake Howell High School,** Winter Park FL
 
