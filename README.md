@@ -47,7 +47,7 @@ September 2018 - Present
 
 August 2014 - May 2018
 
-*   Weighted GPA of 3.9
+*   Weighted GPA of 4.1
 *   Business Professionals of America Club
 *   Business Management 1,2,3, & 4
 *   Advanced Placement:
