@@ -28,7 +28,7 @@ Wrote HTML & CSS code for client websites, and performed installations on client
 *   QuickBooks Desktop 2015 Certified
 *   Proficient in Microsoft Office & GSuite
 
-# Languages
+# Technologies
 
 *   Python
 *   PHP
@@ -42,27 +42,3 @@ Wrote HTML & CSS code for client websites, and performed installations on client
 ## **University of Massachusetts,** Amherst
 
 September 2018 - Present
-
-## **Lake Howell High School,** Winter Park FL
-
-August 2014 - May 2018
-
-*   Weighted GPA of 4.1
-*   Business Professionals of America Club
-*   Business Management 1,2,3, & 4
-*   Advanced Placement:
-    *   Calculus AB/BC
-    *   Physics
-    *   Biology
-    *   English Lang & Comp
-    *   World History
-    *   Human Geography
-
-## **Florida Virtual School,** Orlando FL
-
-January 2013 - May 2018
-
-*   Fundamentals of Programming
-*   Fundamentals of Web Design
-*   Physical Science
-*   Spanish 1 & 2
