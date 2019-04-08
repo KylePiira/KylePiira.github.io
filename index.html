@@ -46,35 +46,35 @@
 				<div class="sectionContent">
 					<p>The below timeline represents my experience in various technologies. Naturally, I am more familiar with technologies that I have worked with for longer.</p>
 					<script type="text/javascript">
-					google.charts.load("current", {packages:["timeline"]});
-					google.charts.setOnLoadCallback(drawChart);
-					function drawChart() {
-						var container = document.getElementById('timeline');
-						var chart = new google.visualization.Timeline(container);
-						var dataTable = new google.visualization.DataTable();
-						dataTable.addColumn({ type: 'string', id: 'Id'});
-						dataTable.addColumn({ type: 'string', id: 'Name'});
-						dataTable.addColumn({ type: 'date', id: 'Start' });
-						dataTable.addColumn({ type: 'date', id: 'End' });
-						dataTable.addRows([
-							["HTML", 'HTML/CSS', new Date(2011, 5, 1), new Date()],
-							["PHP", 'PHP 5.x', new Date(2012, 11, 1), new Date(2015, 1, 1)],
-							["Python", 'Python 2.7/3.x', new Date(2014, 10, 13), new Date()],
-							["Scipy", 'Scipy (Numpy, Pandas, etc.)', new Date(2015, 3, 1), new Date()],
-							["Django", 'Django  1.x/2.x', new Date(2016, 1, 1), new Date()],
-							["Bootstrap", 'Bootstrap 3/4', new Date(2016, 5, 1), new Date()],
-							["JS", 'JavaScript (Vanilla)', new Date(2017, 5, 4), new Date()],
-							["Elasticsearch", 'Elasticsearch 5.x/6.x', new Date(2017, 5, 4), new Date(2018, 4, 1)],
-							["Keras", 'Keras', new Date(2017, 8, 1), new Date()],
-							["Java", 'Java 10', new Date(2018, 5, 1), new Date()],
-						]);
+						google.charts.load("current", {packages:["timeline"]});
+						google.charts.setOnLoadCallback(drawChart);
+						function drawChart() {
+							var container = document.getElementById('timeline');
+							var chart = new google.visualization.Timeline(container);
+							var dataTable = new google.visualization.DataTable();
+							dataTable.addColumn({ type: 'string', id: 'Id'});
+							dataTable.addColumn({ type: 'string', id: 'Name'});
+							dataTable.addColumn({ type: 'date', id: 'Start' });
+							dataTable.addColumn({ type: 'date', id: 'End' });
+							dataTable.addRows([
+								["HTML", 'HTML/CSS', new Date(2011, 5, 1), new Date()],
+								["PHP", 'PHP 5.x', new Date(2012, 11, 1), new Date(2015, 1, 1)],
+								["Python", 'Python 2.7/3.x', new Date(2014, 10, 13), new Date()],
+								["Scipy", 'Scipy (Numpy, Pandas, etc.)', new Date(2015, 3, 1), new Date()],
+								["Django", 'Django  1.x/2.x', new Date(2016, 1, 1), new Date()],
+								["Bootstrap", 'Bootstrap 3/4', new Date(2016, 5, 1), new Date()],
+								["JS", 'JavaScript (Vanilla)', new Date(2017, 5, 4), new Date()],
+								["Elasticsearch", 'Elasticsearch 5.x/6.x', new Date(2017, 5, 4), new Date(2018, 4, 1)],
+								["Keras", 'Keras', new Date(2017, 8, 1), new Date()],
+								["Java", 'Java 10', new Date(2018, 5, 1), new Date()],
+							]);
 
-						var options = {
-							timeline: { showRowLabels: false }
-						};
+							var options = {
+								timeline: { showRowLabels: false }
+							};
 
-						chart.draw(dataTable, options);
-					}
+							chart.draw(dataTable, options);
+						}
 					</script>
 					<div id="timeline" style="min-height: 500px;"></div>
 					<p>Do note, the above is by no means an exhaustive list of technologies I am familiar with. Please contact me for questions about specific libraries/frameworks.</p>
