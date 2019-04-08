@@ -17,10 +17,6 @@
 <body id="top">
 	<div id="cv" class="instaFade">
 		<div class="mainDetails">
-			<div id="headshot" class="quickFade">
-				<img src="headshot.jpg" alt="Kyle Piira" />
-			</div>
-
 			<div id="name">
 				<h1 class="quickFade delayTwo">Kyle Piira</h1>
 				<h2 class="quickFade delayThree">Software Developer</h2>
@@ -46,6 +42,7 @@
 				<div class="sectionContent">
 					<p>The below timeline represents my experience in various technologies. Naturally, I am more familiar with technologies that I have worked with for longer.</p>
 					<script type="text/javascript">
+<<<<<<< HEAD
 						google.charts.load("current", {packages:["timeline"]});
 						google.charts.setOnLoadCallback(drawChart);
 						function drawChart() {
@@ -75,8 +72,40 @@
 
 							chart.draw(dataTable, options);
 						}
+=======
+					google.charts.load("current", {packages:["timeline"]});
+					google.charts.setOnLoadCallback(drawChart);
+					function drawChart() {
+						var container = document.getElementById('timeline');
+						var chart = new google.visualization.Timeline(container);
+						var dataTable = new google.visualization.DataTable();
+						dataTable.addColumn({ type: 'string', id: 'Id'});
+						dataTable.addColumn({ type: 'string', id: 'Name'});
+						dataTable.addColumn({ type: 'date', id: 'Start' });
+						dataTable.addColumn({ type: 'date', id: 'End' });
+						dataTable.addRows([
+							["HTML", 'HTML/CSS', new Date(2011, 5, 1), new Date()],
+							["PHP", 'PHP 5.x', new Date(2012, 11, 1), new Date(2015, 1, 1)],
+							["Python", 'Python 2.7/3.x', new Date(2014, 10, 13), new Date()],
+							["Scipy", 'Scipy (Numpy, Pandas, etc.)', new Date(2015, 3, 1), new Date()],
+							["Django", 'Django  1.x/2.x', new Date(2016, 1, 1), new Date()],
+							["Bootstrap", 'Bootstrap 3/4', new Date(2016, 5, 1), new Date()],
+							["JS", 'JavaScript (Vanilla)', new Date(2017, 5, 4), new Date()],
+							["Elasticsearch", 'Elasticsearch 5.x/6.x', new Date(2017, 5, 4), new Date(2018, 4, 1)],
+							["Keras", 'Keras (Machine Learning)', new Date(2017, 8, 1), new Date()],
+							["NLP", 'Natural Language Processing', new Date(2017, 10, 1), new Date()],
+							["Java", 'Java 10', new Date(2018, 5, 1), new Date()],
+						]);
+
+						var options = {
+							timeline: { showRowLabels: false }
+						};
+
+						chart.draw(dataTable, options);
+					}
+>>>>>>> 6b021e45e50f67b2c34221b3fd307f3e22684132
 					</script>
-					<div id="timeline" style="min-height: 500px;"></div>
+					<div id="timeline" style="min-height: 550px;"></div>
 					<p>Do note, the above is by no means an exhaustive list of technologies I am familiar with. Please contact me for questions about specific libraries/frameworks.</p>
 				</div>
 				<div class="clear"></div>
@@ -91,11 +120,13 @@
 					<article>
 						<h2><strong>Hoxly Corporation,</strong> Orlando FL - Chief Executive</h2>
 						<p class="subDetails">May 2015 - Present</p>
-						<p>I founded the company as web design firm and later pivoted to selling APIs as a Service.</p>
+						<p>I founded the company as a web design firm and later pivoted to selling APIs as a Service.</p>
 						<ul>
 							<li>Built <a href="https://github.com/Hoxly/asksteem-docs/wiki" style="text-decoration: none; color: black;">Enterprise Search API</a> (30 million monthly queries)</li>
 							<li>Hired and managed three employees</li>
 							<li>Migrated infrastructure to AWS in 2016</li>
+							<li>Personally sold over $30,000 of product</li>
+							<li>Used Keras to build deep learning models for Natural Language Processing tasks</li>
 						</ul>
 					</article>
 					
@@ -127,6 +158,7 @@
 						<ul>
 							<li><strong>Major:</strong> Computer Science</li>
 							<li><strong>Concentration:</strong> Data Science</li>
+							<li><strong>GPA:</strong> 3.4</li>
 						</ul>
 					</article>
 				</div>
@@ -145,6 +177,8 @@
 		ga('send', 'pageview');
 
 	</script>
+	<!-- Here to verify Mastodon profile -->
+	<a rel="me" href="https://microblog.piira.org/@kyle" style="display:none">Mastodon</a>
 </body>
 
 </html>
