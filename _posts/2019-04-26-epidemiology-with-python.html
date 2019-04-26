@@ -1,0 +1,197 @@
+---
+layout: post
+title:  Epidemiology with Python
+author: Kyle Piira
+excerpt: One of the gen-ed classes I've been taking this semester assigned a puzzle for one of the homework assignments. It's a logic puzzle so I decided to solve it using a Python script.
+---
+
+<p>I was recently tasked with solving a fun <a href="https://en.wikipedia.org/wiki/Epidemiology">epidemiology</a> puzzle for one of my university classes. Below is an excerpt from the assignment describing the scenario.</p>
+<blockquote cite="{% link science/plagues/epidemiology_puzzle.pdf %}">
+	<p>11 people get sick enough to go to a local hospital with severe diarrhea and vomiting that lasts four days or so in each patient. All the patients turn out to all have the same strain of norovirus.</p>
+	<p>It turned out that they all knew each other and over the summer had been sharing produce from their gardens. The nurse's hypothesis was that one person had norovirus, and had transmitted the virus to others on the food. She made a list, numbered the patients, starting with the patient that had first shared, and who they had shared with. It  turned out a total of 16 people had shared produce, so she contacted the additional people who had not gotten sick, and asked them who they had shared produce with and when. In the end, she came up with the list below. So, patient 1 first shared vegetables with patient 12, then with patient 14. Patient 2 first shared vegetables with patient 5, then with patient 15, and so on. And patient 1 never got ill, while patient 2 did. Any time that two people come in contact with each other, the virus can move either way. For example, it would be possible for patient 2 to have infected patient 5, or patient 5 to infect patient 2.</p>
+	<p>After studying the list, she said, “I know who started this!” She asked that patient where they had been recently and it turned out they’d been on a cruise ship that had had a severe outbreak of norovirus! Based on her data, which patient was the one who went on the cruise and started the epidemic?</p>
+</blockquote>
+
+<h2>Data</h2>
+<p>Below is the dataset of patients and who they met with.</p>
+<table>
+  <tr>
+    <th>Patient</th>
+    <th>Meetings</th>
+    <th>Sick</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td>12,14</td>
+    <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td>5,15</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td>6,16</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td>1,7,11</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td>10,3,16</td>
+    <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td>13,2</td>
+    <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td>2,8</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td>3,10</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td>15,5</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td>9</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>11</td>
+    <td>14</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td>13,15</td>
+    <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>13</td>
+    <td>16,3</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>14</td>
+    <td>9</td>
+    <td>TRUE</td>
+  </tr>
+  <tr>
+    <td>15</td>
+    <td>16,5</td>
+    <td>FALSE</td>
+  </tr>
+  <tr>
+    <td>16</td>
+    <td>9</td>
+    <td>TRUE</td>
+  </tr>
+</table>
+
+<h2>Rules</h2>
+<p>So based on the above passage we can derive some simplified rules to use in solving the puzzle</p>
+<ol>
+	<li>Meetings happen sequentially going left to right</li>
+	<li>Rows are in chronological order going top to bottom</li>
+	<li>We don't move onto the next row until all the meetings of the current row are complete</li>
+	<li>Each meeting has only two people</li>
+	<li>When two people meet the disease can go either direction</li>
+</ol>
+
+<h2>Solution</h2>
+<h3>Theory</h3>
+<p>To solve this we need to find an algorithm that can identify patient zero based on their interactions with others. At first, I thought about using a graph-based approach to model each meeting, but the temporal nature of the data makes that untenable. Instead, I opted for a much simpler and intuitive approach that takes advantage of the ordering.</p>
+<p>Since we know the precise sequence in which meetings occurred and we know that each meeting contains only two people we can generate a list of interaction tuples from the dataset. For example, 1 meets with 12, then 14, and then 2 meets with 5. So we could have a list like so:</p>
+{% highlight python %}[(1, 12), (1, 14), (2, 5)]{% endhighlight linenos %}
+<p>Once we have our sequential list of interactions we can iterate through them to simulate the effect of any given individual being patient zero. Then it's just a game of trial and error trying out different possible patients. If we find a contradiction in our simulation based on the data we were given (ie. someone gets sick in the simulation but was healthy in the table) then we know that our guess for patient zero was wrong and can move on to the next one. But if we get all the way to the end of the simulation and everyone who was supposed to get sick is sick and everyone who was supposed to be healthy is healthy then we found our culprit.</p>
+
+<h3>Code</h3>
+<p>So now that we have a game-plan, we just need to code it up and find out who got everyone sick.</p>
+<p>We'll be using the <a href="https://pandas.pydata.org/">Pandas</a> python library for working with our table.</p>
+{% highlight python %}
+import pandas
+{% endhighlight %}
+<p>I've placed the table into a CSV file called data.csv which we'll open as a Pandas DataFrame.</p>
+{% highlight python %}
+# Load the dataset into a DataFrame
+df = pd.read_csv('data.csv')
+{% endhighlight %}
+<p>We need to get the list of interactions in chronological order from the table. To do this I'll use a Python generator to iterate over the rows and for each row I'll split the meetings up and yield them.</p>
+{% highlight python %}
+def get_interactions():
+    # Iterate through the rows of the DataFrame
+    for index, row in df.iterrows():
+        # Get each meeting in order
+        for meeting in row['Meetings'].split(','):
+            # Yield the interaction
+            yield {row['Patient'], int(meeting)}
+{% endhighlight %}
+<p>Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a set of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.</p>
+<p>When we iterate through the interactions there are three possible situations that can happen:</p>
+<ol>
+	<li>The interaction has no sick people in it</li>
+	<li>The interaction has one sick person and one healthy person</li>
+	<li>The interaction has two sick people</li>
+</ol>
+<p>If the interaction has no sick people or two sick people then we just move along to the next one. But if it has one sick person and one healthy person then we need to make the healthy person "sick" by adding them to the sick_people set. However, before doing that we check with our real data to see if the healthy person was recorded as being sick. If they were then they get added and we keep going, but if they are supposed to be healthy then we know that our hypothesis was wrong and can return False.</p>
+<p>Finally, if we make it through all of the iterations without invalidating our hypothesis then it must be true and we will return.</p>
+{% highlight python tabsize=1 %}
+# Test if our patient zero hypothesis is correct
+def test_hypothesis(id, interactions):
+    # A set of sick people in the simulation
+    # starts with just patient zero
+    sick_people = {id}
+    # Iterate over the interactions in
+    # chronological order
+    for interaction in interactions:
+        # Check if the interaction has at least
+        # one sick person in it
+        if sick_people.intersection(interaction):
+            # If there is a sick person then
+            # check if everyone in this interaction
+            # was supposed to get sick.
+            for person in interaction:
+                # If they were then add them to the set
+                if df[df['Patient'] == person]['Sick'].bool():
+                    sick_people.add(person)
+                # If they weren't then we are done and
+                # can return False
+                else:
+                    return False
+
+    return True
+{% endhighlight %}
+<p>Alright, well that's it! Just add a few more lines of code to run our functions and let's see who it was.</p>
+{% highlight python %}
+# Get list of interactions
+interactions = list(get_interactions())
+# Iterate through the 16 candidates
+for candidate in range(1, 17):
+    # Check if our guess is correct
+    if test_hypothesis(candidate, interactions):
+        # Yay! We found them.
+        print('It was {}!'.format(candidate))
+        break
+{% endhighlight %}
+<p>Run it!</p>
+{% highlight shell %}
+(env) kyle@IntelNuc:~/Code/Python/Virus Spread$ python who_did_it.py 
+It was 7!
+{% endhighlight %}
+<p>Well, it looks like it was patient #7 who got everyone sick. Mystery solved.</p>
+<p>I decided to write another script using similar code to produce a tree diagram of the infection which is pictured below. As you can see the norovirus does indeed start with patient #7 and moves to all of the other sick people from there. I encourage you to follow the path of the tree through the table to confirm the results for yourself.</p>
+<center><img src="{% link images/epidemiology/tree.png %}"></center>

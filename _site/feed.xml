@@ -1,220 +1,417 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-<generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
-<link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
-<link href="http://localhost:4000/" rel="alternate" type="text/html" />
-<updated>2019-04-25T22:57:36-04:00</updated>
-<id>http://localhost:4000/</id>
-<entry>
-<title>Exploration of the Game of Life</title>
-<link href="http://localhost:4000/2018/11/24/game-of-life/" rel="alternate" type="text/html" title="Exploration of the Game of Life" />
-<published>2018-11-24T00:00:00-05:00</published>
-<updated>2018-11-24T00:00:00-05:00</updated>
-<id>http://localhost:4000/2018/11/24/game-of-life</id>
-<content type="html" xml:base="http://localhost:4000/2018/11/24/game-of-life/">&lt;h2&gt;Basic Exploration&lt;/h2&gt;
-&lt;p&gt;&lt;img src=&quot;{{ 'images/game-of-life/paper.png' | relative_url }}&quot; /&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.8.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2019-04-26T09:34:08-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Kyle Piira</title><entry><title type="html">Epidemiology with Python</title><link href="http://localhost:4000/2019/04/26/epidemiology-with-python/" rel="alternate" type="text/html" title="Epidemiology with Python" /><published>2019-04-26T00:00:00-04:00</published><updated>2019-04-26T00:00:00-04:00</updated><id>http://localhost:4000/2019/04/26/epidemiology-with-python</id><content type="html" xml:base="http://localhost:4000/2019/04/26/epidemiology-with-python/">&lt;p&gt;I was recently tasked with solving a fun &lt;a href=&quot;https://en.wikipedia.org/wiki/Epidemiology&quot;&gt;epidemiology&lt;/a&gt; puzzle for one of my university classes. Below is an excerpt from the assignment describing the scenario.&lt;/p&gt;
+&lt;blockquote cite=&quot;/science/plagues/epidemiology_puzzle.pdf&quot;&gt;
+	&lt;p&gt;11 people get sick enough to go to a local hospital with severe diarrhea and vomiting that lasts four days or so in each patient. All the patients turn out to all have the same strain of norovirus.&lt;/p&gt;
+	&lt;p&gt;It turned out that they all knew each other and over the summer had been sharing produce from their gardens. The nurse's hypothesis was that one person had norovirus, and had transmitted the virus to others on the food. She made a list, numbered the patients, starting with the patient that had first shared, and who they had shared with. It  turned out a total of 16 people had shared produce, so she contacted the additional people who had not gotten sick, and asked them who they had shared produce with and when. In the end, she came up with the list below. So, patient 1 first shared vegetables with patient 12, then with patient 14. Patient 2 first shared vegetables with patient 5, then with patient 15, and so on. And patient 1 never got ill, while patient 2 did. Any time that two people come in contact with each other, the virus can move either way. For example, it would be possible for patient 2 to have infected patient 5, or patient 5 to infect patient 2.&lt;/p&gt;
+	&lt;p&gt;After studying the list, she said, “I know who started this!” She asked that patient where they had been recently and it turned out they’d been on a cruise ship that had had a severe outbreak of norovirus! Based on her data, which patient was the one who went on the cruise and started the epidemic?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2&gt;Data&lt;/h2&gt;
+&lt;p&gt;Below is the dataset of patients and who they met with.&lt;/p&gt;
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Patient&lt;/th&gt;
+    &lt;th&gt;Meetings&lt;/th&gt;
+    &lt;th&gt;Sick&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;1&lt;/td&gt;
+    &lt;td&gt;12,14&lt;/td&gt;
+    &lt;td&gt;FALSE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;2&lt;/td&gt;
+    &lt;td&gt;5,15&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;3&lt;/td&gt;
+    &lt;td&gt;6,16&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;4&lt;/td&gt;
+    &lt;td&gt;1,7,11&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;5&lt;/td&gt;
+    &lt;td&gt;10,3,16&lt;/td&gt;
+    &lt;td&gt;FALSE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;6&lt;/td&gt;
+    &lt;td&gt;13,2&lt;/td&gt;
+    &lt;td&gt;FALSE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;7&lt;/td&gt;
+    &lt;td&gt;2,8&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;8&lt;/td&gt;
+    &lt;td&gt;3,10&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;9&lt;/td&gt;
+    &lt;td&gt;15,5&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;10&lt;/td&gt;
+    &lt;td&gt;9&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;11&lt;/td&gt;
+    &lt;td&gt;14&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;12&lt;/td&gt;
+    &lt;td&gt;13,15&lt;/td&gt;
+    &lt;td&gt;FALSE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;13&lt;/td&gt;
+    &lt;td&gt;16,3&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;14&lt;/td&gt;
+    &lt;td&gt;9&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;15&lt;/td&gt;
+    &lt;td&gt;16,5&lt;/td&gt;
+    &lt;td&gt;FALSE&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;16&lt;/td&gt;
+    &lt;td&gt;9&lt;/td&gt;
+    &lt;td&gt;TRUE&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;h2&gt;Rules&lt;/h2&gt;
+&lt;p&gt;So based on the above passage we can derive some simplified rules to use in solving the puzzle&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt;Meetings happen sequentially going left to right&lt;/li&gt;
+	&lt;li&gt;Rows are in chronological order going top to bottom&lt;/li&gt;
+	&lt;li&gt;We don't move onto the next row until all the meetings of the current row are complete&lt;/li&gt;
+	&lt;li&gt;Each meeting has only two people&lt;/li&gt;
+	&lt;li&gt;When two people meet the disease can go either direction&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2&gt;Solution&lt;/h2&gt;
+&lt;h3&gt;Theory&lt;/h3&gt;
+&lt;p&gt;To solve this we need to find an algorithm that can identify patient zero based on their interactions with others. At first, I thought about using a graph-based approach to model each meeting, but the temporal nature of the data makes that untenable. Instead, I opted for a much simpler and intuitive approach that takes advantage of the ordering.&lt;/p&gt;
+&lt;p&gt;Since we know the precise sequence in which meetings occurred and we know that each meeting contains only two people we can generate a list of interaction tuples from the dataset. For example, 1 meets with 12, then 14, and then 2 meets with 5. So we could have a list like so:&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;p&quot;&gt;[(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;14&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Once we have our sequential list of interactions we can iterate through them to simulate the effect of any given individual being patient zero. Then it's just a game of trial and error trying out different possible patients. If we find a contradiction in our simulation based on the data we were given (ie. someone gets sick in the simulation but was healthy in the table) then we know that our guess for patient zero was wrong and can move on to the next one. But if we get all the way to the end of the simulation and everyone who was supposed to get sick is sick and everyone who was supposed to be healthy is healthy then we found our culprit.&lt;/p&gt;
+
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;p&gt;So now that we have a game-plan, we just need to code it up and find out who got everyone sick.&lt;/p&gt;
+&lt;p&gt;We'll be using the &lt;a href=&quot;https://pandas.pydata.org/&quot;&gt;Pandas&lt;/a&gt; python library for working with our table.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;pandas&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;I've placed the table into a CSV file called data.csv which we'll open as a Pandas DataFrame.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# Load the dataset into a DataFrame
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read_csv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'data.csv'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;We need to get the list of interactions in chronological order from the table. To do this I'll use a Python generator to iterate over the rows and for each row I'll split the meetings up and yield them.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;get_interactions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Iterate through the rows of the DataFrame
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;iterrows&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Get each meeting in order
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;meeting&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Meetings'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;','&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# Yield the interaction
+&lt;/span&gt;            &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;row&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Patient'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;meeting&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a set of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.&lt;/p&gt;
+&lt;p&gt;When we iterate through the interactions there are three possible situations that can happen:&lt;/p&gt;
+&lt;ol&gt;
+	&lt;li&gt;The interaction has no sick people in it&lt;/li&gt;
+	&lt;li&gt;The interaction has one sick person and one healthy person&lt;/li&gt;
+	&lt;li&gt;The interaction has two sick people&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If the interaction has no sick people or two sick people then we just move along to the next one. But if it has one sick person and one healthy person then we need to make the healthy person &quot;sick&quot; by adding them to the sick_people set. However, before doing that we check with our real data to see if the healthy person was recorded as being sick. If they were then they get added and we keep going, but if they are supposed to be healthy then we know that our hypothesis was wrong and can return False.&lt;/p&gt;
+&lt;p&gt;Finally, if we make it through all of the iterations without invalidating our hypothesis then it must be true and we will return.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# Test if our patient zero hypothesis is correct
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;test_hypothesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interactions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# A set of sick people in the simulation
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# starts with just patient zero
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;sick_people&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Iterate over the interactions in
+&lt;/span&gt;    &lt;span class=&quot;c1&quot;&gt;# chronological order
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interaction&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interactions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Check if the interaction has at least
+&lt;/span&gt;        &lt;span class=&quot;c1&quot;&gt;# one sick person in it
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sick_people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;intersection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+            &lt;span class=&quot;c1&quot;&gt;# If there is a sick person then
+&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;# check if everyone in this interaction
+&lt;/span&gt;            &lt;span class=&quot;c1&quot;&gt;# was supposed to get sick.
+&lt;/span&gt;            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interaction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                &lt;span class=&quot;c1&quot;&gt;# If they were then add them to the set
+&lt;/span&gt;                &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;df&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Patient'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;][&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Sick'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;bool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+                    &lt;span class=&quot;n&quot;&gt;sick_people&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+                &lt;span class=&quot;c1&quot;&gt;# If they weren't then we are done and
+&lt;/span&gt;                &lt;span class=&quot;c1&quot;&gt;# can return False
+&lt;/span&gt;                &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+                    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;False&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;bp&quot;&gt;True&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Alright, well that's it! Just add a few more lines of code to run our functions and let's see who it was.&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# Get list of interactions
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interactions&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;list&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;get_interactions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# Iterate through the 16 candidates
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;candidate&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;17&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# Check if our guess is correct
+&lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;test_hypothesis&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;candidate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;interactions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;c1&quot;&gt;# Yay! We found them.
+&lt;/span&gt;        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'It was {}!'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;candidate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Run it!&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-shell&quot; data-lang=&quot;shell&quot;&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; kyle@IntelNuc:~/Code/Python/Virus Spread&lt;span class=&quot;nv&quot;&gt;$ &lt;/span&gt;python who_did_it.py 
+It was 7!&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;p&gt;Well, it looks like it was patient #7 who got everyone sick. Mystery solved.&lt;/p&gt;
+&lt;p&gt;I decided to write another script using similar code to produce a tree diagram of the infection which is pictured below. As you can see the norovirus does indeed start with patient #7 and moves to all of the other sick people from there. I encourage you to follow the path of the tree through the table to confirm the results for yourself.&lt;/p&gt;
+&lt;center&gt;&lt;img src=&quot;/images/epidemiology/tree.png&quot;&gt;&lt;/center&gt;</content><author><name>Kyle Piira</name></author><summary type="html">One of the gen-ed classes I've been taking this semester assigned a puzzle for one of the homework assignments. It's a logic puzzle so I decided to solve it using a Python script.</summary></entry><entry><title type="html">Exploration of the Game of Life</title><link href="http://localhost:4000/2018/11/24/game-of-life/" rel="alternate" type="text/html" title="Exploration of the Game of Life" /><published>2018-11-24T00:00:00-05:00</published><updated>2018-11-24T00:00:00-05:00</updated><id>http://localhost:4000/2018/11/24/game-of-life</id><content type="html" xml:base="http://localhost:4000/2018/11/24/game-of-life/">&lt;h2&gt;Basic Exploration&lt;/h2&gt;
+&lt;img src=&quot;/images/game-of-life/paper.png&quot;&gt;
 &lt;h2&gt;In-depth Exploration&lt;/h2&gt;
 &lt;ol&gt;
 	&lt;li&gt;Can you find a pattern that returns to its starting point after more than two time steps?&lt;/li&gt;
 	&lt;li&gt;What's the longest you can see a pattern go without repeating a configuration?&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.&lt;/p&gt;
-&lt;p&gt;{% highlight python linenos %}
-“””
-Kyle’s Game of Life Implementation
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+Kyle's Game of Life Implementation
 1) live cells die if they have 0, 1, or 4+ neighbors
 2) empty cells have a birth if they have exactly three neighbors
-“””&lt;/p&gt;
+&quot;&quot;&quot;&lt;/span&gt;
 
-&lt;p&gt;import numpy as np&lt;/p&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;numpy&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;
 
-&lt;h1 id=&quot;create-a-blank-board&quot;&gt;Create a blank board&lt;/h1&gt;
-&lt;p&gt;board = np.zeros((5, 5))&lt;/p&gt;
+&lt;span class=&quot;c1&quot;&gt;# Create a blank board
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
 
-&lt;p&gt;def iterate(board):
-	“””
+&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;iterate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+	&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
 	This function takes the current board state and returns the next state.
-	“””
-	conv_board = np.zeros((7, 7))
-	conv_board[1:6, 1:6] = board
-	conv = np.lib.stride_tricks.as_strided(
-		conv_board, 
-		(5, 5, 3, 3), # view shape
-		(56, 8, 56, 8) # strides
-	)&lt;/p&gt;
+	&quot;&quot;&quot;&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;conv_board&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;conv_board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;board&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stride_tricks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_strided&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+		&lt;span class=&quot;n&quot;&gt;conv_board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
+		&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# view shape
+&lt;/span&gt;		&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;56&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# strides
+&lt;/span&gt;	&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+	
+	&lt;span class=&quot;c1&quot;&gt;# The new board
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;zeros&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+			&lt;span class=&quot;c1&quot;&gt;# Count the number of neighbor live cells
+&lt;/span&gt;			&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+				&lt;span class=&quot;c1&quot;&gt;# Subtract itself from total count
+&lt;/span&gt;				&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+			&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+				&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;conv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# The new board
-b = np.zeros((5, 5))
-for i in range(5):
-	for j in range(5):
-		# Count the number of neighbor live cells
-		if conv[i, j, 1, 1] == 1:
-			# Subtract itself from total count
-			b[i, j] = conv[i, j].sum() - 1
-		else:
-			b[i, j] = conv[i, j].sum()
+	&lt;span class=&quot;c1&quot;&gt;# Cells with 0, 1, or 4+ die
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;# Living cells with 2 neighbors get to keep living
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;board&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;# Dead cells with 2 neighbors stay dead
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;np&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;board&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;axis&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;# All cells with 3 neighbors live
+&lt;/span&gt;	&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;b&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
+	&lt;span class=&quot;c1&quot;&gt;# Return the new board state
+&lt;/span&gt;	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;b&lt;/span&gt;
 
-# Cells with 0, 1, or 4+ die
-b[np.any([b &amp;lt;= 1, b &amp;gt;= 4], axis=0)] = 0
-# Living cells with 2 neighbors get to keep living
-b[np.all([b == 2, board == 1], axis=0)] = 1
-# Dead cells with 2 neighbors stay dead
-b[np.all([b == 2, board == 0], axis=0)] = 0
-# All cells with 3 neighbors live
-b[b == 3] = 1
-# Return the new board state
-return b
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == ‘&lt;strong&gt;main&lt;/strong&gt;’:
-	while input(‘Continue? [y/n] ‘) == ‘y’:
-		print(board)
-board = iterate(board)
-{% endhighlight %}&lt;/p&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;__name__&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'__main__'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Continue? [y/n] '&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'y'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+		&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iterate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;board&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 &lt;h2&gt;Results&lt;/h2&gt;
 &lt;p&gt;It took approximately two hours to play all 2&lt;sup&gt;25&lt;/sup&gt; possible starting positions. There were 300,477,379 total steps taken with an average of 8.95 steps per game. The game with the longest period was 39 steps.&lt;/p&gt;
 &lt;h3&gt;The Longest Game&lt;/h3&gt;
 &lt;div class=&quot;longest-game&quot;&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/game.gif' | relative_url }}&quot; /&gt;
-	&lt;hr /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/1.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/2.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/3.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/4.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/5.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/6.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/7.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/8.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/9.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/10.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/11.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/12.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/13.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/14.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/15.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/16.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/17.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/18.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/19.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/20.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/21.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/22.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/23.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/24.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/25.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/26.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/27.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/28.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/29.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/30.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/31.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/32.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/33.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/34.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/35.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/36.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/37.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/38.png' | relative_url }}&quot; /&gt;
-	&lt;img src=&quot;{{ 'images/game-of-life/39.png' | relative_url }}&quot; /&gt;
-&lt;/div&gt;
-</content>
-<author>
-<name>Kyle Piira</name>
-</author>
-<summary>I did a project for University where we were tasked with exporing Conway’s game of life and determining some unique properties.</summary>
-</entry>
-<entry>
-<title>Introducing the AskSteem Search Engine</title>
-<link href="http://localhost:4000/2017/06/09/introducing-asksteem/" rel="alternate" type="text/html" title="Introducing the AskSteem Search Engine" />
-<published>2017-06-09T00:00:00-04:00</published>
-<updated>2017-06-09T00:00:00-04:00</updated>
-<id>http://localhost:4000/2017/06/09/introducing-asksteem</id>
-<content type="html" xml:base="http://localhost:4000/2017/06/09/introducing-asksteem/">&lt;aside&gt;This article was originally published on Steemit.com&lt;/aside&gt;
-&lt;p&gt;&lt;img src=&quot;https://cdn.hoxly.com/asksteem/AskSteem_Logo_v3.png&quot; alt=&quot;Asksteem&quot; referrerpolicy=&quot;no-referrer&quot; /&gt;
-Over the past month, I&amp;#39;ve been building a new search engine that indexes the steem blockchain. It&amp;#39;s currently live at &lt;a href=&quot;https://www.asksteem.com&quot;&gt;asksteem.com&lt;/a&gt;. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem. In this post, I&amp;#39;d like to cover some of the features that are available. &lt;/p&gt;
+	&lt;img src=&quot;/images/game-of-life/game.gif&quot;&gt;
+	&lt;hr&gt;
+	&lt;img src=&quot;/images/game-of-life/1.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/2.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/3.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/4.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/5.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/6.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/7.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/8.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/9.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/10.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/11.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/12.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/13.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/14.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/15.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/16.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/17.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/18.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/19.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/20.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/21.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/22.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/23.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/24.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/25.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/26.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/27.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/28.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/29.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/30.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/31.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/32.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/33.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/34.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/35.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/36.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/37.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/38.png&quot;&gt;
+	&lt;img src=&quot;/images/game-of-life/39.png&quot;&gt;
+&lt;/div&gt;</content><author><name>Kyle Piira</name></author><summary type="html">I did a project for University where we were tasked with exporing Conway's game of life and determining some unique properties.</summary></entry><entry><title type="html">Introducing the AskSteem Search Engine</title><link href="http://localhost:4000/2017/06/09/introducing-asksteem/" rel="alternate" type="text/html" title="Introducing the AskSteem Search Engine" /><published>2017-06-09T00:00:00-04:00</published><updated>2017-06-09T00:00:00-04:00</updated><id>http://localhost:4000/2017/06/09/introducing-asksteem</id><content type="html" xml:base="http://localhost:4000/2017/06/09/introducing-asksteem/">&lt;aside&gt;This article was originally published on Steemit.com&lt;/aside&gt;
+&lt;p&gt;&lt;img src='https://cdn.hoxly.com/asksteem/AskSteem_Logo_v3.png' alt='Asksteem' referrerPolicy='no-referrer' /&gt;
+Over the past month, I&amp;#39;ve been building a new search engine that indexes the steem blockchain. It&amp;#39;s currently live at &lt;a href='https://www.asksteem.com'&gt;asksteem.com&lt;/a&gt;. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem. In this post, I&amp;#39;d like to cover some of the features that are available. &lt;/p&gt;
 &lt;h1&gt;Query Syntax&lt;/h1&gt;
 &lt;p&gt;There are many different ways that you can query the AskSteem index. I&amp;#39;ve created a video demonstrating each of them, but you may also read their descriptions and examples below.
-&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/gw2kGFLGmxo&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/gw2kGFLGmxo&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen&gt;&lt;/iframe&gt;&lt;/p&gt;
 &lt;h3&gt;Keyword/Phrase Search&lt;/h3&gt;
 &lt;p&gt;Like many other search engines, you can search for general phrases and terms. AskSteem will try its best to find the document that is most relevant to your query based on our ranking algorithm. 
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 &lt;strong&gt;Tip:&lt;/strong&gt; Click the example to go to that query on AskSteem
-&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+buy+bitcoin&quot;&gt;&lt;code&gt;How to buy bitcoin&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=What+is+steem&quot;&gt;&lt;code&gt;What is steem&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=Markdown+tutorial&quot;&gt;&lt;code&gt;Markdown tutorial&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=How+to+buy+bitcoin'&gt;&lt;code&gt;How to buy bitcoin&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=What+is+steem'&gt;&lt;code&gt;What is steem&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=Markdown+tutorial'&gt;&lt;code&gt;Markdown tutorial&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Exact Search&lt;/h3&gt;
 &lt;p&gt;Putting a query into quotes requests that AskSteem only returns documents that have exactly that phrase in that order.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=%22How+to+buy+bitcoin%22&quot;&gt;&lt;code&gt;&amp;quot;How to buy bitcoin&amp;quot;&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=%22What+is+steem%22&quot;&gt;&lt;code&gt;&amp;quot;What is steem&amp;quot;&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=%22Markdown+tutorial%22&quot;&gt;&lt;code&gt;&amp;quot;Markdown tutorial&amp;quot;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=%22How+to+buy+bitcoin%22'&gt;&lt;code&gt;&amp;quot;How to buy bitcoin&amp;quot;&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=%22What+is+steem%22'&gt;&lt;code&gt;&amp;quot;What is steem&amp;quot;&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=%22Markdown+tutorial%22'&gt;&lt;code&gt;&amp;quot;Markdown tutorial&amp;quot;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Tag Search&lt;/h3&gt;
 &lt;p&gt;AskSteem allows you to filter posts by tag.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=tags:life&quot;&gt;&lt;code&gt;tags:life&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=tags:steemit&quot;&gt;&lt;code&gt;tags:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=tags:life'&gt;&lt;code&gt;tags:life&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=tags:steemit'&gt;&lt;code&gt;tags:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Author Search&lt;/h3&gt;
 &lt;p&gt;You can filter posts by the author too.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=author:thekyle&quot;&gt;&lt;code&gt;author:thekyle&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=author:abit&quot;&gt;&lt;code&gt;author:abit&lt;/code&gt;&lt;/a&gt;
-&lt;a href=&quot;https://www.asksteem.com/search?q=author:steemit&quot;&gt;&lt;code&gt;author:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=author:thekyle'&gt;&lt;code&gt;author:thekyle&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=author:abit'&gt;&lt;code&gt;author:abit&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=author:steemit'&gt;&lt;code&gt;author:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Creation Date Search&lt;/h3&gt;
 &lt;p&gt;AskSteem provides a highly flexible and powerful date search tool for posts. You can search by exact date or by date range. Dates must be in the form of YYYY-MM-DD.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 Search for all posts posted on June 2, 2017
-&lt;a href=&quot;https://www.asksteem.com/search?q=created:2017-06-02&quot;&gt;&lt;code&gt;created:2017-06-02&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=created:2017-06-02'&gt;&lt;code&gt;created:2017-06-02&lt;/code&gt;&lt;/a&gt;
 Search for all posts posted between May 1, 2017, and May 31, 2017
-&lt;a href=&quot;https://www.asksteem.com/search?q=created:%5B2017-05-01+TO+2017-05-31%5D&quot;&gt;&lt;code&gt;created:[2017-05-01 TO 2017-05-31]&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=created:%5B2017-05-01+TO+2017-05-31%5D'&gt;&lt;code&gt;created:[2017-05-01 TO 2017-05-31]&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Search by Number of Votes/Comments&lt;/h3&gt;
 &lt;p&gt;Similar to dates AskSteem has another set of robust tools that allow searches based on the number of upvotes or comments a post receives. 
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 Posts with 150 votes:
-&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:150&quot;&gt;&lt;code&gt;net_votes:150&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=net_votes:150'&gt;&lt;code&gt;net_votes:150&lt;/code&gt;&lt;/a&gt;
 Posts with between 100 and 150 votes
-&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:%5B100+TO+150%5D&quot;&gt;&lt;code&gt;net_votes:[100 TO 150]&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=net_votes:%5B100+TO+150%5D'&gt;&lt;code&gt;net_votes:[100 TO 150]&lt;/code&gt;&lt;/a&gt;
 Posts with 50 comments:
-&lt;a href=&quot;https://www.asksteem.com/search?q=children:50&quot;&gt;&lt;code&gt;children:50&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=children:50'&gt;&lt;code&gt;children:50&lt;/code&gt;&lt;/a&gt;
 Posts with between 40 and 50 comments:
-&lt;a href=&quot;https://www.asksteem.com/search?q=children:%5B40+TO+50%5D&quot;&gt;&lt;code&gt;children:[40 TO 50]&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=children:%5B40+TO+50%5D'&gt;&lt;code&gt;children:[40 TO 50]&lt;/code&gt;&lt;/a&gt;
 Posts with more than 50 comments:
-&lt;a href=&quot;https://www.asksteem.com/search?q=children:%3E50&quot;&gt;&lt;code&gt;children:&amp;gt;50&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=children:%3E50'&gt;&lt;code&gt;children:&amp;gt;50&lt;/code&gt;&lt;/a&gt;
 or less than 50:
-&lt;a href=&quot;https://www.asksteem.com/search?q=children:%3C50&quot;&gt;&lt;code&gt;children:&amp;lt;50&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=children:%3C50'&gt;&lt;code&gt;children:&amp;lt;50&lt;/code&gt;&lt;/a&gt;
 this also works with votes, less than or equal to 10 votes:
-&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:%3C%3D10&quot;&gt;&lt;code&gt;net_votes:&amp;lt;=10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=net_votes:%3C%3D10'&gt;&lt;code&gt;net_votes:&amp;lt;=10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Searches with Boosts&lt;/h3&gt;
 &lt;p&gt;You can prioritize certain parts of your query with boosts. These are indicated by placing a &lt;code&gt;^n&lt;/code&gt; at the end of a term, where &lt;code&gt;n&lt;/code&gt; is the power you want to boost that part of the query to. 
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 Give the term bitcoin a boost of two:
-&lt;a href=&quot;https://www.asksteem.com/search?q=I+really+want+posts+to+have+the+term+bitcoin%5E2+in+them.&quot;&gt;&lt;code&gt;I really want posts to have the term bitcoin^2 in them.&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=I+really+want+posts+to+have+the+term+bitcoin%5E2+in+them.'&gt;&lt;code&gt;I really want posts to have the term bitcoin^2 in them.&lt;/code&gt;&lt;/a&gt;
 Give the term mine a boost of two, and term steem a boost of three:
-&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+mine%5E2+steem%5E3&quot;&gt;&lt;code&gt;How to mine^2 steem^3&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=How+to+mine%5E2+steem%5E3'&gt;&lt;code&gt;How to mine^2 steem^3&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Inclusive/Exclusive Search&lt;/h3&gt;
 &lt;p&gt;You can indicate whether you want documents to contain certain terms by placing a &lt;code&gt;+&lt;/code&gt; or a &lt;code&gt;-&lt;/code&gt; in front of the term.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 Find documents about mining but not bitcoin:
-&lt;a href=&quot;https://www.asksteem.com/search?q=cryptocurrency+%2Bmining+-bitcoin&quot;&gt;&lt;code&gt;cryptocurrency +mining -bitcoin&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=cryptocurrency+%2Bmining+-bitcoin'&gt;&lt;code&gt;cryptocurrency +mining -bitcoin&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Wildcard Search&lt;/h3&gt;
 &lt;p&gt;You can use the wildcard expressions of &lt;code&gt;?&lt;/code&gt; for a single character, or &lt;code&gt;*&lt;/code&gt; to match any number of characters.
 &lt;strong&gt;Example Queries:&lt;/strong&gt;
 How to mine any cryptocurrency:
-&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+mine+*&quot;&gt;&lt;code&gt;How to mine *&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=How+to+mine+*'&gt;&lt;code&gt;How to mine *&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h3&gt;Boolean Search&lt;/h3&gt;
-&lt;p&gt;AskSteem supports any combination of the previously mentioned search types in a single powerful query. This uses boolean values of AND, OR, and NOT, along with parenthesis to separate statements.&lt;br /&gt;&lt;strong&gt;Example Queries:&lt;/strong&gt;
+&lt;p&gt;AskSteem supports any combination of the previously mentioned search types in a single powerful query. This uses boolean values of AND, OR, and NOT, along with parenthesis to separate statements.&lt;br/&gt;&lt;strong&gt;Example Queries:&lt;/strong&gt;
 Posts tagged with asksteem by @thekyle:
-&lt;a href=&quot;https://www.asksteem.com/search?q=tags:asksteem+AND+author:thekyle&quot;&gt;&lt;code&gt;tags:asksteem AND author:thekyle&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=tags:asksteem+AND+author:thekyle'&gt;&lt;code&gt;tags:asksteem AND author:thekyle&lt;/code&gt;&lt;/a&gt;
 Posts with between 50 and 100 comments that have more than 500 upvotes and that are tagged with &amp;#39;bitcoin&amp;#39; or have the term bitcoin in the document:
-&lt;a href=&quot;https://www.asksteem.com/search?q=%28bitcoin+OR+tags:bitcoin%29+AND+%28net_votes:%3E500+AND+children:%28%3E50+AND+%3C100%29%29&quot;&gt;&lt;code&gt;(bitcoin OR tags:bitcoin) AND (net_votes:&amp;gt;500 AND children:(&amp;gt;50 AND &amp;lt;100))&lt;/code&gt;&lt;/a&gt;
+&lt;a href='https://www.asksteem.com/search?q=%28bitcoin+OR+tags:bitcoin%29+AND+%28net_votes:%3E500+AND+children:%28%3E50+AND+%3C100%29%29'&gt;&lt;code&gt;(bitcoin OR tags:bitcoin) AND (net_votes:&amp;gt;500 AND children:(&amp;gt;50 AND &amp;lt;100))&lt;/code&gt;&lt;/a&gt;
 Posts created on June 2, 2017, with 100 or more upvotes but less than 10 comments:
-&lt;a href=&quot;https://www.asksteem.com/search?q=created:2017-06-02+AND+net_votes:%3E%3D100+AND+children:%3C10&quot;&gt;&lt;code&gt;created:2017-06-02 AND net_votes:&amp;gt;=100 AND children:&amp;lt;10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;a href='https://www.asksteem.com/search?q=created:2017-06-02+AND+net_votes:%3E%3D100+AND+children:%3C10'&gt;&lt;code&gt;created:2017-06-02 AND net_votes:&amp;gt;=100 AND children:&amp;lt;10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Developers&lt;/h1&gt;
-&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=aiqasuhUPXU&quot; target=&quot;_blank&quot; class=&quot;url&quot;&gt;https://www.youtube.com/watch?v=aiqasuhUPXU&lt;/a&gt;
-Because AskSteem integrates directly into the steem blockchain it can read metadata directly from posts and use that data when performing queries and displaying results. We encourage developers to add AskSteem compatible metadata to their posts so that we can show links to your application in our search results. The full documentation can be found at &lt;a href=&quot;https://www.asksteem.com/developers&quot;&gt;asksteem.com/developers&lt;/a&gt;, however, in this post I will summarize the most important tags.&lt;/p&gt;
+&lt;p&gt;&lt;a href='https://www.youtube.com/watch?v=aiqasuhUPXU' target='_blank' class='url'&gt;https://www.youtube.com/watch?v=aiqasuhUPXU&lt;/a&gt;
+Because AskSteem integrates directly into the steem blockchain it can read metadata directly from posts and use that data when performing queries and displaying results. We encourage developers to add AskSteem compatible metadata to their posts so that we can show links to your application in our search results. The full documentation can be found at &lt;a href='https://www.asksteem.com/developers'&gt;asksteem.com/developers&lt;/a&gt;, however, in this post I will summarize the most important tags.&lt;/p&gt;
 &lt;figure&gt;&lt;table&gt;
 &lt;thead&gt;
-&lt;tr&gt;&lt;th&gt;Tag&lt;/th&gt;&lt;th style=&quot;text-align:center;&quot;&gt;Description&lt;/th&gt;&lt;th style=&quot;text-align:right;&quot;&gt;Example&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
-&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;domain&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;The domain name or web address that your application is hosted on.&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;example.com&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;locator&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;The path to reach the post on the domain relative to the root.&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;/CATEGORY/@AUTHOR/PERMLINK&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;protocol&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;Either &amp;#39;http&amp;#39; or &amp;#39;https&amp;#39; if not provided then http will be used by default&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;https&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;tr&gt;&lt;th&gt;Tag&lt;/th&gt;&lt;th style='text-align:center;' &gt;Description&lt;/th&gt;&lt;th style='text-align:right;' &gt;Example&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;domain&lt;/td&gt;&lt;td style='text-align:center;' &gt;The domain name or web address that your application is hosted on.&lt;/td&gt;&lt;td style='text-align:right;' &gt;&lt;code&gt;example.com&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;locator&lt;/td&gt;&lt;td style='text-align:center;' &gt;The path to reach the post on the domain relative to the root.&lt;/td&gt;&lt;td style='text-align:right;' &gt;&lt;code&gt;/CATEGORY/@AUTHOR/PERMLINK&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;protocol&lt;/td&gt;&lt;td style='text-align:center;' &gt;Either &amp;#39;http&amp;#39; or &amp;#39;https&amp;#39; if not provided then http will be used by default&lt;/td&gt;&lt;td style='text-align:right;' &gt;&lt;code&gt;https&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
 &lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;If none of the above metadata is provided then AskSteem will link to steemit.com for all posts by default, however, it is assumed that the platform creating the content will have the best interface for viewing it, so we would rather link there.&lt;/p&gt;
 &lt;p&gt;The &lt;code&gt;domain&lt;/code&gt; and &lt;code&gt;locator&lt;/code&gt; tags are required for custom linking to work, however, the &lt;code&gt;protocol&lt;/code&gt; tag is optional and will default to http.  &lt;/p&gt;
@@ -224,15 +421,8 @@ Because AskSteem integrates directly into the steem blockchain it can read metad
 
 &lt;/ul&gt;
 &lt;p&gt;The final URL that we point to will be generated by concatenating the domain and locator together with the protocol at the beginning which will be http unless otherwise specified. &lt;/p&gt;
-&lt;p&gt;Additionally, if you are building an application on the steem blockchain and need a search API please email us at &lt;a href=&quot;mailto:contact@asksteem.com&quot; target=&quot;_blank&quot; class=&quot;url&quot;&gt;contact@asksteem.com&lt;/a&gt;, we are able to query custom metadata and make various other customizations to the ranking algorithm to support your use case.&lt;/p&gt;
+&lt;p&gt;Additionally, if you are building an application on the steem blockchain and need a search API please email us at &lt;a href='mailto:contact@asksteem.com' target='_blank' class='url'&gt;contact@asksteem.com&lt;/a&gt;, we are able to query custom metadata and make various other customizations to the ranking algorithm to support your use case.&lt;/p&gt;
 &lt;h1&gt;Funding&lt;/h1&gt;
 &lt;p&gt;The harsh reality is that search engines are expensive to run and that adding new features and improving performance are difficult if the basic funding needs of the project are not covered. AskSteem currently costs me about $100/month to run, and that number will, of course, continue to increase as steem grows and the index size increases.&lt;/p&gt;
 &lt;p&gt;Ideally, my goal is the have those costs covered through upvotes from the steem community and to use any extra money for adding new features and scaling the search infrastructure to meet demand. If this works then AskSteem will be the first search engine in the world to use a cryptocurrency based revenue model, instead of selling advertising. &lt;/p&gt;
-&lt;p&gt;Thank you for your time, and &lt;a href=&quot;https://www.asksteem.com&quot;&gt;happy searching&lt;/a&gt;!&lt;/p&gt;
-</content>
-<author>
-<name>Kyle Piira</name>
-</author>
-<summary>Over the past month, I’ve been building a new search engine that indexes the steem blockchain. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem.</summary>
-</entry>
-</feed>
+&lt;p&gt;Thank you for your time, and &lt;a href='https://www.asksteem.com'&gt;happy searching&lt;/a&gt;!&lt;/p&gt;</content><author><name>Kyle Piira</name></author><summary type="html">Over the past month, I've been building a new search engine that indexes the steem blockchain. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem.</summary></entry></feed>
