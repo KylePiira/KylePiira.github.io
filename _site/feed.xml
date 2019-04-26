@@ -3,7 +3,7 @@
 <generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
 <link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
 <link href="http://localhost:4000/" rel="alternate" type="text/html" />
-<updated>2019-04-25T22:15:02-04:00</updated>
+<updated>2019-04-25T22:57:36-04:00</updated>
 <id>http://localhost:4000/</id>
 <entry>
 <title>Exploration of the Game of Life</title>
@@ -121,6 +121,118 @@ board = iterate(board)
 <author>
 <name>Kyle Piira</name>
 </author>
-<summary>Basic ExplorationIn-depth Exploration	Can you find a pattern that returns to its starting point after more than two time steps?	What's the longest you can see a pattern go without repeating a configuration?To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.12345&quot;&quot;&quot;Kyle's Game of Life Implementation1) live cells die if they have 0, 1, or 4+ neighbors2) empty cells have a birth if they have exactly three neighbors&quot;&quot;&quot;</summary>
+<summary>I did a project for University where we were tasked with exporing Conway’s game of life and determining some unique properties.</summary>
+</entry>
+<entry>
+<title>Introducing the AskSteem Search Engine</title>
+<link href="http://localhost:4000/2017/06/09/introducing-asksteem/" rel="alternate" type="text/html" title="Introducing the AskSteem Search Engine" />
+<published>2017-06-09T00:00:00-04:00</published>
+<updated>2017-06-09T00:00:00-04:00</updated>
+<id>http://localhost:4000/2017/06/09/introducing-asksteem</id>
+<content type="html" xml:base="http://localhost:4000/2017/06/09/introducing-asksteem/">&lt;aside&gt;This article was originally published on Steemit.com&lt;/aside&gt;
+&lt;p&gt;&lt;img src=&quot;https://cdn.hoxly.com/asksteem/AskSteem_Logo_v3.png&quot; alt=&quot;Asksteem&quot; referrerpolicy=&quot;no-referrer&quot; /&gt;
+Over the past month, I&amp;#39;ve been building a new search engine that indexes the steem blockchain. It&amp;#39;s currently live at &lt;a href=&quot;https://www.asksteem.com&quot;&gt;asksteem.com&lt;/a&gt;. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem. In this post, I&amp;#39;d like to cover some of the features that are available. &lt;/p&gt;
+&lt;h1&gt;Query Syntax&lt;/h1&gt;
+&lt;p&gt;There are many different ways that you can query the AskSteem index. I&amp;#39;ve created a video demonstrating each of them, but you may also read their descriptions and examples below.
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/gw2kGFLGmxo&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;&lt;/p&gt;
+&lt;h3&gt;Keyword/Phrase Search&lt;/h3&gt;
+&lt;p&gt;Like many other search engines, you can search for general phrases and terms. AskSteem will try its best to find the document that is most relevant to your query based on our ranking algorithm. 
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+&lt;strong&gt;Tip:&lt;/strong&gt; Click the example to go to that query on AskSteem
+&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+buy+bitcoin&quot;&gt;&lt;code&gt;How to buy bitcoin&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=What+is+steem&quot;&gt;&lt;code&gt;What is steem&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=Markdown+tutorial&quot;&gt;&lt;code&gt;Markdown tutorial&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Exact Search&lt;/h3&gt;
+&lt;p&gt;Putting a query into quotes requests that AskSteem only returns documents that have exactly that phrase in that order.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=%22How+to+buy+bitcoin%22&quot;&gt;&lt;code&gt;&amp;quot;How to buy bitcoin&amp;quot;&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=%22What+is+steem%22&quot;&gt;&lt;code&gt;&amp;quot;What is steem&amp;quot;&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=%22Markdown+tutorial%22&quot;&gt;&lt;code&gt;&amp;quot;Markdown tutorial&amp;quot;&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Tag Search&lt;/h3&gt;
+&lt;p&gt;AskSteem allows you to filter posts by tag.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=tags:life&quot;&gt;&lt;code&gt;tags:life&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=tags:steemit&quot;&gt;&lt;code&gt;tags:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Author Search&lt;/h3&gt;
+&lt;p&gt;You can filter posts by the author too.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=author:thekyle&quot;&gt;&lt;code&gt;author:thekyle&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=author:abit&quot;&gt;&lt;code&gt;author:abit&lt;/code&gt;&lt;/a&gt;
+&lt;a href=&quot;https://www.asksteem.com/search?q=author:steemit&quot;&gt;&lt;code&gt;author:steemit&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Creation Date Search&lt;/h3&gt;
+&lt;p&gt;AskSteem provides a highly flexible and powerful date search tool for posts. You can search by exact date or by date range. Dates must be in the form of YYYY-MM-DD.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+Search for all posts posted on June 2, 2017
+&lt;a href=&quot;https://www.asksteem.com/search?q=created:2017-06-02&quot;&gt;&lt;code&gt;created:2017-06-02&lt;/code&gt;&lt;/a&gt;
+Search for all posts posted between May 1, 2017, and May 31, 2017
+&lt;a href=&quot;https://www.asksteem.com/search?q=created:%5B2017-05-01+TO+2017-05-31%5D&quot;&gt;&lt;code&gt;created:[2017-05-01 TO 2017-05-31]&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Search by Number of Votes/Comments&lt;/h3&gt;
+&lt;p&gt;Similar to dates AskSteem has another set of robust tools that allow searches based on the number of upvotes or comments a post receives. 
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+Posts with 150 votes:
+&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:150&quot;&gt;&lt;code&gt;net_votes:150&lt;/code&gt;&lt;/a&gt;
+Posts with between 100 and 150 votes
+&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:%5B100+TO+150%5D&quot;&gt;&lt;code&gt;net_votes:[100 TO 150]&lt;/code&gt;&lt;/a&gt;
+Posts with 50 comments:
+&lt;a href=&quot;https://www.asksteem.com/search?q=children:50&quot;&gt;&lt;code&gt;children:50&lt;/code&gt;&lt;/a&gt;
+Posts with between 40 and 50 comments:
+&lt;a href=&quot;https://www.asksteem.com/search?q=children:%5B40+TO+50%5D&quot;&gt;&lt;code&gt;children:[40 TO 50]&lt;/code&gt;&lt;/a&gt;
+Posts with more than 50 comments:
+&lt;a href=&quot;https://www.asksteem.com/search?q=children:%3E50&quot;&gt;&lt;code&gt;children:&amp;gt;50&lt;/code&gt;&lt;/a&gt;
+or less than 50:
+&lt;a href=&quot;https://www.asksteem.com/search?q=children:%3C50&quot;&gt;&lt;code&gt;children:&amp;lt;50&lt;/code&gt;&lt;/a&gt;
+this also works with votes, less than or equal to 10 votes:
+&lt;a href=&quot;https://www.asksteem.com/search?q=net_votes:%3C%3D10&quot;&gt;&lt;code&gt;net_votes:&amp;lt;=10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Searches with Boosts&lt;/h3&gt;
+&lt;p&gt;You can prioritize certain parts of your query with boosts. These are indicated by placing a &lt;code&gt;^n&lt;/code&gt; at the end of a term, where &lt;code&gt;n&lt;/code&gt; is the power you want to boost that part of the query to. 
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+Give the term bitcoin a boost of two:
+&lt;a href=&quot;https://www.asksteem.com/search?q=I+really+want+posts+to+have+the+term+bitcoin%5E2+in+them.&quot;&gt;&lt;code&gt;I really want posts to have the term bitcoin^2 in them.&lt;/code&gt;&lt;/a&gt;
+Give the term mine a boost of two, and term steem a boost of three:
+&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+mine%5E2+steem%5E3&quot;&gt;&lt;code&gt;How to mine^2 steem^3&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Inclusive/Exclusive Search&lt;/h3&gt;
+&lt;p&gt;You can indicate whether you want documents to contain certain terms by placing a &lt;code&gt;+&lt;/code&gt; or a &lt;code&gt;-&lt;/code&gt; in front of the term.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+Find documents about mining but not bitcoin:
+&lt;a href=&quot;https://www.asksteem.com/search?q=cryptocurrency+%2Bmining+-bitcoin&quot;&gt;&lt;code&gt;cryptocurrency +mining -bitcoin&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Wildcard Search&lt;/h3&gt;
+&lt;p&gt;You can use the wildcard expressions of &lt;code&gt;?&lt;/code&gt; for a single character, or &lt;code&gt;*&lt;/code&gt; to match any number of characters.
+&lt;strong&gt;Example Queries:&lt;/strong&gt;
+How to mine any cryptocurrency:
+&lt;a href=&quot;https://www.asksteem.com/search?q=How+to+mine+*&quot;&gt;&lt;code&gt;How to mine *&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Boolean Search&lt;/h3&gt;
+&lt;p&gt;AskSteem supports any combination of the previously mentioned search types in a single powerful query. This uses boolean values of AND, OR, and NOT, along with parenthesis to separate statements.&lt;br /&gt;&lt;strong&gt;Example Queries:&lt;/strong&gt;
+Posts tagged with asksteem by @thekyle:
+&lt;a href=&quot;https://www.asksteem.com/search?q=tags:asksteem+AND+author:thekyle&quot;&gt;&lt;code&gt;tags:asksteem AND author:thekyle&lt;/code&gt;&lt;/a&gt;
+Posts with between 50 and 100 comments that have more than 500 upvotes and that are tagged with &amp;#39;bitcoin&amp;#39; or have the term bitcoin in the document:
+&lt;a href=&quot;https://www.asksteem.com/search?q=%28bitcoin+OR+tags:bitcoin%29+AND+%28net_votes:%3E500+AND+children:%28%3E50+AND+%3C100%29%29&quot;&gt;&lt;code&gt;(bitcoin OR tags:bitcoin) AND (net_votes:&amp;gt;500 AND children:(&amp;gt;50 AND &amp;lt;100))&lt;/code&gt;&lt;/a&gt;
+Posts created on June 2, 2017, with 100 or more upvotes but less than 10 comments:
+&lt;a href=&quot;https://www.asksteem.com/search?q=created:2017-06-02+AND+net_votes:%3E%3D100+AND+children:%3C10&quot;&gt;&lt;code&gt;created:2017-06-02 AND net_votes:&amp;gt;=100 AND children:&amp;lt;10&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Developers&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=aiqasuhUPXU&quot; target=&quot;_blank&quot; class=&quot;url&quot;&gt;https://www.youtube.com/watch?v=aiqasuhUPXU&lt;/a&gt;
+Because AskSteem integrates directly into the steem blockchain it can read metadata directly from posts and use that data when performing queries and displaying results. We encourage developers to add AskSteem compatible metadata to their posts so that we can show links to your application in our search results. The full documentation can be found at &lt;a href=&quot;https://www.asksteem.com/developers&quot;&gt;asksteem.com/developers&lt;/a&gt;, however, in this post I will summarize the most important tags.&lt;/p&gt;
+&lt;figure&gt;&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;&lt;th&gt;Tag&lt;/th&gt;&lt;th style=&quot;text-align:center;&quot;&gt;Description&lt;/th&gt;&lt;th style=&quot;text-align:right;&quot;&gt;Example&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;domain&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;The domain name or web address that your application is hosted on.&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;example.com&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;locator&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;The path to reach the post on the domain relative to the root.&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;/CATEGORY/@AUTHOR/PERMLINK&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;protocol&lt;/td&gt;&lt;td style=&quot;text-align:center;&quot;&gt;Either &amp;#39;http&amp;#39; or &amp;#39;https&amp;#39; if not provided then http will be used by default&lt;/td&gt;&lt;td style=&quot;text-align:right;&quot;&gt;&lt;code&gt;https&lt;/code&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;If none of the above metadata is provided then AskSteem will link to steemit.com for all posts by default, however, it is assumed that the platform creating the content will have the best interface for viewing it, so we would rather link there.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;domain&lt;/code&gt; and &lt;code&gt;locator&lt;/code&gt; tags are required for custom linking to work, however, the &lt;code&gt;protocol&lt;/code&gt; tag is optional and will default to http.  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The domain tag should be the domain name that your web-based steem application is hosted on and is subdomain sensitive (so if your hosting on www subdomain then put that). &lt;/li&gt;
+&lt;li&gt;The locator should be the permalink to that particular post in your applications URL structure, also notice the leading forward slash, this is required. &lt;/li&gt;
+
+&lt;/ul&gt;
+&lt;p&gt;The final URL that we point to will be generated by concatenating the domain and locator together with the protocol at the beginning which will be http unless otherwise specified. &lt;/p&gt;
+&lt;p&gt;Additionally, if you are building an application on the steem blockchain and need a search API please email us at &lt;a href=&quot;mailto:contact@asksteem.com&quot; target=&quot;_blank&quot; class=&quot;url&quot;&gt;contact@asksteem.com&lt;/a&gt;, we are able to query custom metadata and make various other customizations to the ranking algorithm to support your use case.&lt;/p&gt;
+&lt;h1&gt;Funding&lt;/h1&gt;
+&lt;p&gt;The harsh reality is that search engines are expensive to run and that adding new features and improving performance are difficult if the basic funding needs of the project are not covered. AskSteem currently costs me about $100/month to run, and that number will, of course, continue to increase as steem grows and the index size increases.&lt;/p&gt;
+&lt;p&gt;Ideally, my goal is the have those costs covered through upvotes from the steem community and to use any extra money for adding new features and scaling the search infrastructure to meet demand. If this works then AskSteem will be the first search engine in the world to use a cryptocurrency based revenue model, instead of selling advertising. &lt;/p&gt;
+&lt;p&gt;Thank you for your time, and &lt;a href=&quot;https://www.asksteem.com&quot;&gt;happy searching&lt;/a&gt;!&lt;/p&gt;
+</content>
+<author>
+<name>Kyle Piira</name>
+</author>
+<summary>Over the past month, I’ve been building a new search engine that indexes the steem blockchain. The goal of AskSteem is to provide a reliable, powerful, and fast search engine that is optimized for steem.</summary>
 </entry>
 </feed>
