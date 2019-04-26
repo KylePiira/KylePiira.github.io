@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>{{ page.title }} - {{ site.title }}</title>
+    <!-- So that site displays correctly on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Water.css is a lightweight classless CSS theme (hosted by Hoxly) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.hoxly.com/water/light.css">
+    <!-- Custom Navbar styles -->
+    <link rel="stylesheet" href="{{ 'css/navbar.css' | relative_url }}">
+    <!-- Code Highlighting -->
+    <link rel="stylesheet" href="{{ 'css/code.css' | relative_url }}">
+  </head>
+  <body>
+    {% include navbar.html %}
+    <!-- Content of the page -->
+    <h1>{{ page.title }}</h1> 
+    <p>Published on {{ page.date | date_to_string: "ordinal", "US" }} by {{ page.author }}</p>
+    <article>
+      {{ content }}
+    </article>
+  </body>
+</html>

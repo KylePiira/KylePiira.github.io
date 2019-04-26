@@ -1,0 +1,185 @@
+<html>
+  <head>
+    <title>Exploration of the Game of Life - Kyle Piira</title>
+    <!-- So that site displays correctly on mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Water.css is a lightweight classless CSS theme (hosted by Hoxly) -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.hoxly.com/water/light.css">
+    <!-- Custom Navbar styles -->
+    <link rel="stylesheet" href="/css/navbar.css">
+    <!-- Code Highlighting -->
+    <link rel="stylesheet" href="/css/code.css">
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+<header>
+  <nav>
+    <ul class="navbar">
+      <li class="navbar-element"><a class="navbar-link" href="/" title="Homepage of the site">Home</a></li>
+      <li class="navbar-element"><a class="navbar-link" href="/blog/" title="My personal blog">Blog</a></li>
+      <!-- rel="me" to verify my website on Mastodon -->
+      <li class="navbar-element"><a class="navbar-link" href="https://microblog.piira.org/@kyle" rel="me" title="A place where I post random thoughts and interesting content I find on the web">Microblog</a></li>
+      <li class="navbar-element"><a class="navbar-link" href="mailto:contact@kylepiira.com" title="My email address">Contact</a></li>
+    </ul>
+  </nav>
+</header> 
+
+    <!-- Content of the page -->
+    <h1>Exploration of the Game of Life</h1> 
+    <p>Published on Nov 24th, 2018 by Kyle Piira</p>
+    <article>
+      <h2>Basic Exploration</h2>
+<img src="/images/game-of-life/paper.png">
+<h2>In-depth Exploration</h2>
+<ol>
+	<li>Can you find a pattern that returns to its starting point after more than two time steps?</li>
+	<li>What's the longest you can see a pattern go without repeating a configuration?</li>
+</ol>
+<p>To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.</p>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+</pre></td><td class="code"><pre><span class="s">"""
+Kyle's Game of Life Implementation
+1) live cells die if they have 0, 1, or 4+ neighbors
+2) empty cells have a birth if they have exactly three neighbors
+"""</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="c1"># Create a blank board
+</span><span class="n">board</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">iterate</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+	<span class="s">"""
+	This function takes the current board state and returns the next state.
+	"""</span>
+	<span class="n">conv_board</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+	<span class="n">conv_board</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span>
+	<span class="n">conv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span>
+		<span class="n">conv_board</span><span class="p">,</span> 
+		<span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="c1"># view shape
+</span>		<span class="p">(</span><span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="c1"># strides
+</span>	<span class="p">)</span>
+	
+	<span class="c1"># The new board
+</span>	<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+			<span class="c1"># Count the number of neighbor live cells
+</span>			<span class="k">if</span> <span class="n">conv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+				<span class="c1"># Subtract itself from total count
+</span>				<span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span>
+
+	<span class="c1"># Cells with 0, 1, or 4+ die
+</span>	<span class="n">b</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="nb">any</span><span class="p">([</span><span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">&gt;=</span> <span class="mi">4</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="c1"># Living cells with 2 neighbors get to keep living
+</span>	<span class="n">b</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="nb">all</span><span class="p">([</span><span class="n">b</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">board</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="c1"># Dead cells with 2 neighbors stay dead
+</span>	<span class="n">b</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="nb">all</span><span class="p">([</span><span class="n">b</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">board</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="c1"># All cells with 3 neighbors live
+</span>	<span class="n">b</span><span class="p">[</span><span class="n">b</span> <span class="o">==</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="c1"># Return the new board state
+</span>	<span class="k">return</span> <span class="n">b</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+	<span class="k">while</span> <span class="nb">input</span><span class="p">(</span><span class="s">'Continue? [y/n] '</span><span class="p">)</span> <span class="o">==</span> <span class="s">'y'</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+<span class="n">board</span> <span class="o">=</span> <span class="n">iterate</span><span class="p">(</span><span class="n">board</span><span class="p">)</span></pre></td></tr></tbody></table></code></pre></figure>
+<h2>Results</h2>
+<p>It took approximately two hours to play all 2<sup>25</sup> possible starting positions. There were 300,477,379 total steps taken with an average of 8.95 steps per game. The game with the longest period was 39 steps.</p>
+<h3>The Longest Game</h3>
+<div class="longest-game">
+	<img src="/images/game-of-life/game.gif">
+	<hr>
+	<img src="/images/game-of-life/1.png">
+	<img src="/images/game-of-life/2.png">
+	<img src="/images/game-of-life/3.png">
+	<img src="/images/game-of-life/4.png">
+	<img src="/images/game-of-life/5.png">
+	<img src="/images/game-of-life/6.png">
+	<img src="/images/game-of-life/7.png">
+	<img src="/images/game-of-life/8.png">
+	<img src="/images/game-of-life/9.png">
+	<img src="/images/game-of-life/10.png">
+	<img src="/images/game-of-life/11.png">
+	<img src="/images/game-of-life/12.png">
+	<img src="/images/game-of-life/13.png">
+	<img src="/images/game-of-life/14.png">
+	<img src="/images/game-of-life/15.png">
+	<img src="/images/game-of-life/16.png">
+	<img src="/images/game-of-life/17.png">
+	<img src="/images/game-of-life/18.png">
+	<img src="/images/game-of-life/19.png">
+	<img src="/images/game-of-life/20.png">
+	<img src="/images/game-of-life/21.png">
+	<img src="/images/game-of-life/22.png">
+	<img src="/images/game-of-life/23.png">
+	<img src="/images/game-of-life/24.png">
+	<img src="/images/game-of-life/25.png">
+	<img src="/images/game-of-life/26.png">
+	<img src="/images/game-of-life/27.png">
+	<img src="/images/game-of-life/28.png">
+	<img src="/images/game-of-life/29.png">
+	<img src="/images/game-of-life/30.png">
+	<img src="/images/game-of-life/31.png">
+	<img src="/images/game-of-life/32.png">
+	<img src="/images/game-of-life/33.png">
+	<img src="/images/game-of-life/34.png">
+	<img src="/images/game-of-life/35.png">
+	<img src="/images/game-of-life/36.png">
+	<img src="/images/game-of-life/37.png">
+	<img src="/images/game-of-life/38.png">
+	<img src="/images/game-of-life/39.png">
+</div>
+    </article>
+  </body>
+</html>

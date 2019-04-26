@@ -1,0 +1,111 @@
+---
+layout: post
+title:  Exploration of the Game of Life
+author: Kyle Piira
+exerpt: I did a project for University where we were tasked with exporing Conway's game of life and determining some unique properties.
+---
+<h2>Basic Exploration</h2>
+<img src="{{ 'images/game-of-life/paper.png' | relative_url }}">
+<h2>In-depth Exploration</h2>
+<ol>
+	<li>Can you find a pattern that returns to its starting point after more than two time steps?</li>
+	<li>What's the longest you can see a pattern go without repeating a configuration?</li>
+</ol>
+<p>To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.</p>
+{% highlight python linenos %}
+"""
+Kyle's Game of Life Implementation
+1) live cells die if they have 0, 1, or 4+ neighbors
+2) empty cells have a birth if they have exactly three neighbors
+"""
+
+import numpy as np
+
+# Create a blank board
+board = np.zeros((5, 5))
+
+def iterate(board):
+	"""
+	This function takes the current board state and returns the next state.
+	"""
+	conv_board = np.zeros((7, 7))
+	conv_board[1:6, 1:6] = board
+	conv = np.lib.stride_tricks.as_strided(
+		conv_board, 
+		(5, 5, 3, 3), # view shape
+		(56, 8, 56, 8) # strides
+	)
+	
+	# The new board
+	b = np.zeros((5, 5))
+	for i in range(5):
+		for j in range(5):
+			# Count the number of neighbor live cells
+			if conv[i, j, 1, 1] == 1:
+				# Subtract itself from total count
+				b[i, j] = conv[i, j].sum() - 1
+			else:
+				b[i, j] = conv[i, j].sum()
+
+	# Cells with 0, 1, or 4+ die
+	b[np.any([b <= 1, b >= 4], axis=0)] = 0
+	# Living cells with 2 neighbors get to keep living
+	b[np.all([b == 2, board == 1], axis=0)] = 1
+	# Dead cells with 2 neighbors stay dead
+	b[np.all([b == 2, board == 0], axis=0)] = 0
+	# All cells with 3 neighbors live
+	b[b == 3] = 1
+	# Return the new board state
+	return b
+
+if __name__ == '__main__':
+	while input('Continue? [y/n] ') == 'y':
+		print(board)
+board = iterate(board)
+{% endhighlight %}
+<h2>Results</h2>
+<p>It took approximately two hours to play all 2<sup>25</sup> possible starting positions. There were 300,477,379 total steps taken with an average of 8.95 steps per game. The game with the longest period was 39 steps.</p>
+<h3>The Longest Game</h3>
+<div class="longest-game">
+	<img src="{{ 'images/game-of-life/game.gif' | relative_url }}">
+	<hr>
+	<img src="{{ 'images/game-of-life/1.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/2.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/3.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/4.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/5.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/6.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/7.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/8.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/9.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/10.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/11.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/12.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/13.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/14.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/15.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/16.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/17.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/18.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/19.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/20.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/21.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/22.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/23.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/24.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/25.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/26.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/27.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/28.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/29.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/30.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/31.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/32.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/33.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/34.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/35.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/36.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/37.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/38.png' | relative_url }}">
+	<img src="{{ 'images/game-of-life/39.png' | relative_url }}">
+</div>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+<generator uri="http://jekyllrb.com" version="3.8.3">Jekyll</generator>
+<link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" />
+<link href="http://localhost:4000/" rel="alternate" type="text/html" />
+<updated>2019-04-25T22:15:02-04:00</updated>
+<id>http://localhost:4000/</id>
+<entry>
+<title>Exploration of the Game of Life</title>
+<link href="http://localhost:4000/2018/11/24/game-of-life/" rel="alternate" type="text/html" title="Exploration of the Game of Life" />
+<published>2018-11-24T00:00:00-05:00</published>
+<updated>2018-11-24T00:00:00-05:00</updated>
+<id>http://localhost:4000/2018/11/24/game-of-life</id>
+<content type="html" xml:base="http://localhost:4000/2018/11/24/game-of-life/">&lt;h2&gt;Basic Exploration&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;{{ 'images/game-of-life/paper.png' | relative_url }}&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;In-depth Exploration&lt;/h2&gt;
+&lt;ol&gt;
+	&lt;li&gt;Can you find a pattern that returns to its starting point after more than two time steps?&lt;/li&gt;
+	&lt;li&gt;What's the longest you can see a pattern go without repeating a configuration?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.&lt;/p&gt;
+&lt;p&gt;{% highlight python linenos %}
+“””
+Kyle’s Game of Life Implementation
+1) live cells die if they have 0, 1, or 4+ neighbors
+2) empty cells have a birth if they have exactly three neighbors
+“””&lt;/p&gt;
+
+&lt;p&gt;import numpy as np&lt;/p&gt;
+
+&lt;h1 id=&quot;create-a-blank-board&quot;&gt;Create a blank board&lt;/h1&gt;
+&lt;p&gt;board = np.zeros((5, 5))&lt;/p&gt;
+
+&lt;p&gt;def iterate(board):
+	“””
+	This function takes the current board state and returns the next state.
+	“””
+	conv_board = np.zeros((7, 7))
+	conv_board[1:6, 1:6] = board
+	conv = np.lib.stride_tricks.as_strided(
+		conv_board, 
+		(5, 5, 3, 3), # view shape
+		(56, 8, 56, 8) # strides
+	)&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# The new board
+b = np.zeros((5, 5))
+for i in range(5):
+	for j in range(5):
+		# Count the number of neighbor live cells
+		if conv[i, j, 1, 1] == 1:
+			# Subtract itself from total count
+			b[i, j] = conv[i, j].sum() - 1
+		else:
+			b[i, j] = conv[i, j].sum()
+
+# Cells with 0, 1, or 4+ die
+b[np.any([b &amp;lt;= 1, b &amp;gt;= 4], axis=0)] = 0
+# Living cells with 2 neighbors get to keep living
+b[np.all([b == 2, board == 1], axis=0)] = 1
+# Dead cells with 2 neighbors stay dead
+b[np.all([b == 2, board == 0], axis=0)] = 0
+# All cells with 3 neighbors live
+b[b == 3] = 1
+# Return the new board state
+return b
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;if &lt;strong&gt;name&lt;/strong&gt; == ‘&lt;strong&gt;main&lt;/strong&gt;’:
+	while input(‘Continue? [y/n] ‘) == ‘y’:
+		print(board)
+board = iterate(board)
+{% endhighlight %}&lt;/p&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;It took approximately two hours to play all 2&lt;sup&gt;25&lt;/sup&gt; possible starting positions. There were 300,477,379 total steps taken with an average of 8.95 steps per game. The game with the longest period was 39 steps.&lt;/p&gt;
+&lt;h3&gt;The Longest Game&lt;/h3&gt;
+&lt;div class=&quot;longest-game&quot;&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/game.gif' | relative_url }}&quot; /&gt;
+	&lt;hr /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/1.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/2.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/3.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/4.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/5.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/6.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/7.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/8.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/9.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/10.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/11.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/12.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/13.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/14.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/15.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/16.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/17.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/18.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/19.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/20.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/21.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/22.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/23.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/24.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/25.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/26.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/27.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/28.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/29.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/30.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/31.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/32.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/33.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/34.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/35.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/36.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/37.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/38.png' | relative_url }}&quot; /&gt;
+	&lt;img src=&quot;{{ 'images/game-of-life/39.png' | relative_url }}&quot; /&gt;
+&lt;/div&gt;
+</content>
+<author>
+<name>Kyle Piira</name>
+</author>
+<summary>Basic ExplorationIn-depth Exploration	Can you find a pattern that returns to its starting point after more than two time steps?	What's the longest you can see a pattern go without repeating a configuration?To answer these questions I decided to build my own implementation of Conway’s Game of Life in Python to brute force all possible starting positions.12345&quot;&quot;&quot;Kyle's Game of Life Implementation1) live cells die if they have 0, 1, or 4+ neighbors2) empty cells have a birth if they have exactly three neighbors&quot;&quot;&quot;</summary>
+</entry>
+</feed>
