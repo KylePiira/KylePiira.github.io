@@ -140,7 +140,7 @@ def get_interactions():
             # Yield the interaction
             yield {row['Patient'], int(meeting)}
 {% endhighlight %}
-<p>Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a set of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.</p>
+<p>Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a list of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.</p>
 <p>When we iterate through the interactions there are three possible situations that can happen:</p>
 <ol>
 	<li>The interaction has no sick people in it</li>
