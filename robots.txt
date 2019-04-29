@@ -2,4 +2,3 @@
 # Here is a sitemap for you to crawl
 Sitemap: https://www.kylepiira.com/sitemap.txt
 User-agent:*
-Disallow:/2019/04/26/epidemiology-with-python/
