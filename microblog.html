@@ -1,0 +1,9 @@
+---
+layout: default
+title:  Microblog
+---
+<h3>Things I want to highlight that aren't important enough to be put on the main blog.</h3>
+{% for post in site.microposts reversed %}
+	<p><b>{{ post.date | date_to_string: "ordinal", "US" }}</b> - <a href="{{ post.url }}">permalink</a></p>
+	<p>{{ post.content }}</p>
+{% endfor %}

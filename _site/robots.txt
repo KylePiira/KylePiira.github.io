@@ -1,4 +1,4 @@
 # Greetings Robots! Welcome to my site. 
 # Here is a sitemap for you to crawl
 Sitemap: https://www.kylepiira.com/sitemap.txt
-Disallow:/2019/04/26/epidemiology-with-python/
+User-agent:*

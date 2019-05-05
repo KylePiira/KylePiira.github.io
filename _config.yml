@@ -22,4 +22,14 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 markdown: kramdown
 plugins_dir:
   - jekyll-feed
-permalink: pretty
+permalink: /:year/:month/:day/:title/
+
+# Collections
+collections:
+  microposts:
+      output: true
+      permalink: /:year/:month/:day/:title/
+  posts:
+      output: true
+
+collections_dir: collections

@@ -18,7 +18,7 @@
       <li class="navbar-element"><a class="navbar-link" href="/" title="Homepage of the site">Home</a></li>
       <li class="navbar-element"><a class="navbar-link" href="/blog/" title="My personal blog">Blog</a></li>
       <!-- rel="me" to verify my website on Mastodon -->
-      <li class="navbar-element"><a class="navbar-link" href="https://microblog.piira.org/@kyle" rel="me" title="A place where I post random thoughts and interesting content I find on the web">Microblog</a></li>
+      <li class="navbar-element"><a class="navbar-link" href="/microblog/" rel="me" title="A place where I post random thoughts and interesting content I find on the web">Microblog</a></li>
       <li class="navbar-element"><a class="navbar-link" href="mailto:contact@kylepiira.com" title="My email address">Contact</a></li>
     </ul>
   </nav>
@@ -145,7 +145,7 @@
 <h3>Code</h3>
 <p>So now that we have a game-plan, we just need to code it up and find out who got everyone sick.</p>
 <p>We'll be using the <a href="https://pandas.pydata.org/">Pandas</a> python library for working with our table.</p>
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span></code></pre></figure>
 <p>I've placed the table into a CSV file called data.csv which we'll open as a Pandas DataFrame.</p>
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Load the dataset into a DataFrame
 </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'data.csv'</span><span class="p">)</span></code></pre></figure>
@@ -157,7 +157,7 @@
 </span>        <span class="k">for</span> <span class="n">meeting</span> <span class="ow">in</span> <span class="n">row</span><span class="p">[</span><span class="s">'Meetings'</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">):</span>
             <span class="c1"># Yield the interaction
 </span>            <span class="k">yield</span> <span class="p">{</span><span class="n">row</span><span class="p">[</span><span class="s">'Patient'</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">meeting</span><span class="p">)}</span></code></pre></figure>
-<p>Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a set of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.</p>
+<p>Great, so far so good. All we have left is the actual simulation to write. For this, what we'll do is keep a list of patients who are sick in the simulation. It will start with just our guess for patient zero and grow as they interact with others.</p>
 <p>When we iterate through the interactions there are three possible situations that can happen:</p>
 <ol>
 	<li>The interaction has no sick people in it</li>
